@@ -16,10 +16,10 @@ def draw_square(x, y, color):
     pygame.draw.rect(SCREEN, color, (x, y, SQUARE_SIZE, SQUARE_SIZE))
 
 def get_random_x():
-    return random.randint(1, (WIDTH // SQUARE_SIZE) - 2) * SQUARE_SIZE
+    return random.randint(0, (WIDTH // SQUARE_SIZE) - 1) * SQUARE_SIZE
 
 def get_random_y():
-    return random.randint(1, (HEIGHT // SQUARE_SIZE) - 2) * SQUARE_SIZE
+    return random.randint(0, (HEIGHT // SQUARE_SIZE) - 1) * SQUARE_SIZE
 
 def get_apple_position():
     apple_position = snake_positions[0]
