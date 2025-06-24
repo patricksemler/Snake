@@ -29,13 +29,15 @@ def get_apple_position():
     return apple_position
 
 snake_positions = apple_position = direction = []
+direction_changed = False
 
 def reset_game():
-    global snake_positions, apple_position, direction
+    global snake_positions, apple_position, direction, direction_changed
 
     snake_positions = [(get_random_x(), get_random_y())]
     apple_position = get_apple_position()
     direction = [0, 0]
+    direction_changed = False
 
 reset_game()
 
@@ -46,12 +48,17 @@ while in_game:
             in_game = False
         if event.type == pygame.KEYDOWN:
             k = event.key
+            left, right, up, down = pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN
 
-            if k == pygame.K_LEFT and direction[0] == 0: direction = [-1, 0]
-            elif k == pygame.K_RIGHT and direction[0] == 0: direction = [1, 0]
-            elif k == pygame.K_UP and direction[1] == 0: direction = [0, -1]
-            elif k == pygame.K_DOWN and direction[1] == 0: direction = [0, 1]
-            elif k == pygame.K_ESCAPE: in_game = False
+            if (k in (left, right, up, down)) and (not direction_changed):
+                if k == left and direction[0] == 0: direction = [-1, 0]
+                elif k == right and direction[0] == 0: direction = [1, 0]
+                elif k == up and direction[1] == 0: direction = [0, -1]
+                elif k == down and direction[1] == 0: direction = [0, 1]
+
+                direction_changed = True
+
+            if k == pygame.K_ESCAPE: in_game = False
 
     SCREEN.fill((0, 0, 0))
 
@@ -79,6 +86,8 @@ while in_game:
     for snake_position in snake_positions:
         draw_square(snake_position[0], snake_position[1], (0, 255, 0))
 
+    direction_changed = False
+    
     pygame.display.flip()
     clock.tick(SPEED)
 
